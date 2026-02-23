@@ -293,6 +293,35 @@
             border-color: rgba(76, 175, 80, 0.9);
         }
         
+        #save-load-buttons {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            pointer-events: all;
+            z-index: 60;
+        }
+        
+        .save-load-btn {
+            padding: 10px 20px;
+            background: rgba(33, 150, 243, 0.8);
+            color: white;
+            border: 3px solid rgba(33, 150, 243, 1);
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+        
+        .save-load-btn:active {
+            transform: scale(0.95);
+            background: rgba(33, 150, 243, 1);
+        }
+        
         @media (max-width: 768px) {
             #mobile-controls {
                 display: block;
@@ -424,7 +453,7 @@
     </div>
     
     <div id="instructions">
-        <h2>🎮 BreakMake 3.0</h2>
+        <h2>BreakMake 2.5</h2>
         <div id="mobile-content">
             <p><strong>Joystick</strong> - Move around</p>
             <p><strong>Touch & Drag</strong> - Look around</p>
@@ -453,6 +482,11 @@
             <div class="mobile-toggle" id="gyro-toggle">Gyro: OFF</div>
             <div class="mobile-toggle active" id="touch-toggle">Touch: ON</div>
         </div>
+        <div id="save-load-buttons">
+            <button class="save-load-btn" id="save-world-btn">💾 Save</button>
+            <button class="save-load-btn" id="load-world-btn">📁 Load</button>
+        </div>
+        <input type="file" id="file-input" accept=".bm2" style="display: none;">
         <div class="mobile-joystick" id="mobile-joystick">
             <div class="mobile-joystick-inner" id="joystick-inner"></div>
         </div>
@@ -1609,6 +1643,148 @@
                 this.textContent = touchLookEnabled ? 'Touch: ON' : 'Touch: OFF';
                 this.classList.toggle('active');
             });
+            
+            // Save/Load functionality
+            document.getElementById('save-world-btn').addEventListener('click', saveWorld);
+            document.getElementById('load-world-btn').addEventListener('click', () => {
+                document.getElementById('file-input').click();
+            });
+            document.getElementById('file-input').addEventListener('change', loadWorld);
+        }
+        
+        function saveWorld() {
+            try {
+                triggerHaptic();
+                
+                // Collect all user-placed blocks
+                const userBlocks = [];
+                world.forEach((blockData, key) => {
+                    if (blockData.mesh && blockData.mesh.userData.isUserPlaced) {
+                        const [x, y, z] = key.split(',').map(Number);
+                        userBlocks.push({
+                            x: x,
+                            y: y,
+                            z: z,
+                            type: blockData.type
+                        });
+                    }
+                });
+                
+                // Create save data
+                const saveData = {
+                    version: '2.5',
+                    timestamp: new Date().toISOString(),
+                    playerPosition: {
+                        x: player.position.x,
+                        y: player.position.y,
+                        z: player.position.z
+                    },
+                    blocks: userBlocks,
+                    selectedBlock: selectedBlock
+                };
+                
+                // Convert to JSON and create blob
+                const jsonString = JSON.stringify(saveData, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                
+                // Create download link
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `breakmake_world_${Date.now()}.bm2`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert('✅ World saved successfully!');
+            } catch (error) {
+                console.error('Save error:', error);
+                alert('❌ Failed to save world');
+            }
+        }
+        
+        function loadWorld(event) {
+            try {
+                triggerHaptic();
+                
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                // Check file extension
+                if (!file.name.endsWith('.bm2')) {
+                    alert('❌ Please select a .bm2 file');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const saveData = JSON.parse(e.target.result);
+                        
+                        // Validate save data
+                        if (!saveData.version || !saveData.blocks) {
+                            alert('❌ Invalid save file');
+                            return;
+                        }
+                        
+                        // Clear existing user-placed blocks
+                        const blocksToRemove = [];
+                        world.forEach((blockData, key) => {
+                            if (blockData.mesh && blockData.mesh.userData.isUserPlaced) {
+                                blocksToRemove.push(key);
+                            }
+                        });
+                        
+                        blocksToRemove.forEach(key => {
+                            const [x, y, z] = key.split(',').map(Number);
+                            removeBlock(x, y, z);
+                        });
+                        
+                        // Load blocks from save
+                        saveData.blocks.forEach(block => {
+                            addBlock(block.x, block.y, block.z, block.type);
+                        });
+                        
+                        // Restore player position
+                        if (saveData.playerPosition) {
+                            player.position.set(
+                                saveData.playerPosition.x,
+                                saveData.playerPosition.y,
+                                saveData.playerPosition.z
+                            );
+                            player.velocity.set(0, 0, 0);
+                        }
+                        
+                        // Restore selected block
+                        if (saveData.selectedBlock) {
+                            selectedBlock = saveData.selectedBlock;
+                            document.querySelectorAll('.inventory-slot').forEach(slot => {
+                                if (slot.dataset.block === selectedBlock) {
+                                    slot.classList.add('active');
+                                } else {
+                                    slot.classList.remove('active');
+                                }
+                            });
+                        }
+                        
+                        alert(`✅ World loaded! (${saveData.blocks.length} blocks)`);
+                        
+                    } catch (error) {
+                        console.error('Parse error:', error);
+                        alert('❌ Failed to load world - corrupted file');
+                    }
+                };
+                
+                reader.readAsText(file);
+                
+                // Reset file input
+                event.target.value = '';
+                
+            } catch (error) {
+                console.error('Load error:', error);
+                alert('❌ Failed to load world');
+            }
         }
         
         let lastFrameTime = performance.now();
