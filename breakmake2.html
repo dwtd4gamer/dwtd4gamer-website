@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BreakMake 2.0</title>
+    <title>BreakMake 3.0</title>
     <style>
         * {
             margin: 0;
@@ -147,65 +147,87 @@
         
         .mobile-joystick {
             position: absolute;
-            bottom: 80px;
-            left: 40px;
-            width: 140px;
-            height: 140px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 4px solid rgba(255, 255, 255, 0.4);
+            bottom: 100px;
+            left: 50px;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border: 5px solid rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             pointer-events: all;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
         }
         
         .mobile-joystick-inner {
             position: absolute;
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.6);
-            border: 3px solid rgba(255, 255, 255, 0.8);
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 100%);
+            border: 4px solid rgba(255, 255, 255, 0.9);
             border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            transition: all 0.1s;
+            transition: all 0.05s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         
         .mobile-button {
             position: absolute;
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.25);
-            border: 4px solid rgba(255, 255, 255, 0.5);
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.2) 100%);
+            border: 5px solid rgba(255, 255, 255, 0.6);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 36px;
             color: white;
             pointer-events: all;
             user-select: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            transition: all 0.1s;
         }
         
         .mobile-button:active {
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0.95);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) 100%);
+            transform: scale(0.92);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
         }
         
-        /* Right side - action buttons in circular arrangement */
+        /* Right side - action buttons optimized for thumb reach */
         #mobile-jump {
-            bottom: 100px;
-            right: 40px;
+            bottom: 110px;
+            right: 50px;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.4) 0%, rgba(76, 175, 80, 0.2) 100%);
+            border-color: rgba(76, 175, 80, 0.8);
+        }
+        
+        #mobile-jump:active {
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.7) 0%, rgba(76, 175, 80, 0.5) 100%);
         }
         
         #mobile-mine {
-            bottom: 200px;
-            right: 40px;
+            bottom: 220px;
+            right: 50px;
+            background: radial-gradient(circle, rgba(244, 67, 54, 0.4) 0%, rgba(244, 67, 54, 0.2) 100%);
+            border-color: rgba(244, 67, 54, 0.8);
+        }
+        
+        #mobile-mine:active {
+            background: radial-gradient(circle, rgba(244, 67, 54, 0.7) 0%, rgba(244, 67, 54, 0.5) 100%);
         }
         
         #mobile-place {
-            bottom: 200px;
-            right: 150px;
+            bottom: 220px;
+            right: 160px;
+            background: radial-gradient(circle, rgba(33, 150, 243, 0.4) 0%, rgba(33, 150, 243, 0.2) 100%);
+            border-color: rgba(33, 150, 243, 0.8);
+        }
+        
+        #mobile-place:active {
+            background: radial-gradient(circle, rgba(33, 150, 243, 0.7) 0%, rgba(33, 150, 243, 0.5) 100%);
         }
         
         #mobile-look-area {
@@ -213,19 +235,62 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 65%;
+            height: 70%;
             pointer-events: all;
         }
         
         .mobile-label {
             position: absolute;
-            bottom: -25px;
+            bottom: -28px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
             white-space: nowrap;
+            pointer-events: none;
+        }
+        
+        /* Look mode indicator */
+        #look-mode-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border-radius: 5px;
+            font-size: 12px;
+            display: none;
+            pointer-events: none;
+        }
+        
+        /* Mobile settings toggle */
+        #mobile-settings {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            pointer-events: all;
+        }
+        
+        .mobile-toggle {
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .mobile-toggle.active {
+            background: rgba(76, 175, 80, 0.6);
+            border-color: rgba(76, 175, 80, 0.9);
         }
         
         @media (max-width: 768px) {
@@ -234,27 +299,90 @@
             }
             
             #instructions {
-                font-size: 14px;
-                padding: 20px;
+                font-size: 13px;
+                padding: 15px;
                 max-width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            
+            #instructions h2 {
+                font-size: 18px;
+            }
+            
+            #instructions p {
+                margin: 6px 0;
             }
             
             #hud {
-                font-size: 11px;
-                padding: 8px;
+                font-size: 10px;
+                padding: 6px;
                 top: 10px;
                 left: 10px;
             }
             
             #inventory {
                 bottom: 10px;
-                gap: 3px;
+                gap: 4px;
+                transform: translateX(-50%) scale(0.85);
             }
             
             .inventory-slot {
-                width: 50px;
-                height: 50px;
-                font-size: 9px;
+                width: 45px;
+                height: 45px;
+                font-size: 8px;
+            }
+            
+            #crosshair {
+                width: 24px;
+                height: 24px;
+            }
+            
+            #crosshair::before {
+                width: 3px;
+                height: 24px;
+                left: 10.5px;
+            }
+            
+            #crosshair::after {
+                width: 24px;
+                height: 3px;
+                top: 10.5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .mobile-joystick {
+                width: 140px;
+                height: 140px;
+                left: 30px;
+                bottom: 80px;
+            }
+            
+            .mobile-joystick-inner {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .mobile-button {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+            }
+            
+            #mobile-jump {
+                bottom: 90px;
+                right: 30px;
+            }
+            
+            #mobile-mine {
+                bottom: 190px;
+                right: 30px;
+            }
+            
+            #mobile-place {
+                bottom: 190px;
+                right: 130px;
             }
         }
     </style>
@@ -291,7 +419,7 @@
     </div>
     
     <div id="instructions">
-        <h2>BreakMake 2.0</h2>
+        <h2>🎮 BreakMake 3.0</h2>
         <p><strong>WASD</strong> - Move around</p>
         <p><strong>SPACE</strong> - Jump</p>
         <p><strong>SHIFT</strong> - Sprint (hold)</p>
@@ -300,13 +428,18 @@
         <p><strong>Right Click</strong> - Place block</p>
         <p><strong>1-5</strong> - Select block type</p>
         <p><strong>ESC</strong> - Release mouse</p>
-        <p>Copyright 2026 Cosmo Co</p>
         <p style="margin-top: 10px; font-size: 12px;">Mobile: Touch controls enabled</p>
-        <button id="startButton">Start</button>
+        <button id="startButton">Click to Start</button>
+        <div id="loadingText" style="margin-top: 15px; display: none; color: #4CAF50;">Loading world...</div>
     </div>
     
     <div id="mobile-controls">
         <div id="mobile-look-area"></div>
+        <div id="look-mode-indicator">Touch Mode 👆</div>
+        <div id="mobile-settings">
+            <div class="mobile-toggle" id="gyro-toggle">Gyro: OFF</div>
+            <div class="mobile-toggle active" id="touch-toggle">Touch: ON</div>
+        </div>
         <div class="mobile-joystick" id="mobile-joystick">
             <div class="mobile-joystick-inner" id="joystick-inner"></div>
         </div>
@@ -372,8 +505,10 @@
         let lastTouchLookX = 0;
         let lastTouchLookY = 0;
         let gyroEnabled = false;
+        let touchLookEnabled = true;
         let lastGyroAlpha = 0;
         let lastGyroBeta = 0;
+        let gyroInitialized = false;
         
         // FPS tracking
         let frames = 0;
@@ -383,15 +518,16 @@
         const GRAVITY = 25;
         const BLOCK_SIZE = 1;
         const CHUNK_SIZE = 16;
-        const RENDER_DISTANCE = 6; // Increased for better endless world experience
+        const RENDER_DISTANCE = 4; // Reduced for faster initial load
         
         let lastPlayerChunk = { x: 0, z: 0 };
+        let isGenerating = false;
         
         function init() {
             // Scene
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x87CEEB);
-            scene.fog = new THREE.Fog(0x87CEEB, 0, CHUNK_SIZE * RENDER_DISTANCE);
+            scene.fog = new THREE.Fog(0x87CEEB, 30, 80); // Simplified fog values
             
             // Camera
             camera = new THREE.PerspectiveCamera(
@@ -403,14 +539,14 @@
             
             // Renderer - optimized settings
             renderer = new THREE.WebGLRenderer({ 
-                antialias: false,
+                antialias: !isMobile,
                 powerPreference: "high-performance",
                 stencil: false,
                 depth: true
             });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-            renderer.shadowMap.enabled = true;
+            renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5));
+            renderer.shadowMap.enabled = !isMobile;
             renderer.shadowMap.type = THREE.BasicShadowMap; // Faster than PCF
             renderer.shadowMap.autoUpdate = false; // Update manually
             document.body.appendChild(renderer.domElement);
@@ -505,26 +641,33 @@
             
             lastPlayerChunk = { x: playerChunkX, z: playerChunkZ };
             
-            // Generate chunks around player
-            for (let cx = playerChunkX - RENDER_DISTANCE; cx <= playerChunkX + RENDER_DISTANCE; cx++) {
-                for (let cz = playerChunkZ - RENDER_DISTANCE; cz <= playerChunkZ + RENDER_DISTANCE; cz++) {
+            // Progressive loading - generate chunks in a smaller initial radius
+            const initialRadius = 2;
+            for (let cx = playerChunkX - initialRadius; cx <= playerChunkX + initialRadius; cx++) {
+                for (let cz = playerChunkZ - initialRadius; cz <= playerChunkZ + initialRadius; cz++) {
                     generateChunk(cx, cz);
                 }
             }
         }
         
         function updateChunks() {
+            if (isGenerating) return; // Prevent multiple simultaneous generation
+            
             const playerChunkX = Math.floor(player.position.x / CHUNK_SIZE);
             const playerChunkZ = Math.floor(player.position.z / CHUNK_SIZE);
             
             // Only update if player moved to a new chunk
             if (playerChunkX !== lastPlayerChunk.x || playerChunkZ !== lastPlayerChunk.z) {
+                isGenerating = true;
                 lastPlayerChunk = { x: playerChunkX, z: playerChunkZ };
                 
                 // Generate new chunks in render distance
                 for (let cx = playerChunkX - RENDER_DISTANCE; cx <= playerChunkX + RENDER_DISTANCE; cx++) {
                     for (let cz = playerChunkZ - RENDER_DISTANCE; cz <= playerChunkZ + RENDER_DISTANCE; cz++) {
-                        generateChunk(cx, cz);
+                        const dist = Math.sqrt((cx - playerChunkX) ** 2 + (cz - playerChunkZ) ** 2);
+                        if (dist <= RENDER_DISTANCE) {
+                            generateChunk(cx, cz);
+                        }
                     }
                 }
                 
@@ -535,7 +678,7 @@
                     const distX = Math.abs(cx - playerChunkX);
                     const distZ = Math.abs(cz - playerChunkZ);
                     
-                    if (distX > RENDER_DISTANCE + 1 || distZ > RENDER_DISTANCE + 1) {
+                    if (distX > RENDER_DISTANCE + 2 || distZ > RENDER_DISTANCE + 2) {
                         chunksToRemove.push(key);
                     }
                 });
@@ -543,29 +686,33 @@
                 // Clean up old chunks
                 chunksToRemove.forEach(key => {
                     const chunk = chunks.get(key);
-                    chunk.children.forEach(mesh => {
-                        mesh.geometry.dispose();
-                    });
-                    scene.remove(chunk);
-                    chunks.delete(key);
-                    
-                    // Remove blocks from world map
-                    const [cx, cz] = key.split(',').map(Number);
-                    const startX = cx * CHUNK_SIZE;
-                    const startZ = cz * CHUNK_SIZE;
-                    
-                    for (let x = 0; x < CHUNK_SIZE; x++) {
-                        for (let z = 0; z < CHUNK_SIZE; z++) {
-                            for (let y = 0; y < 50; y++) {
-                                const blockKey = `${startX + x},${y},${startZ + z}`;
-                                const blockData = world.get(blockKey);
-                                if (blockData && !blockData.mesh) {
-                                    world.delete(blockKey);
+                    if (chunk) {
+                        chunk.children.forEach(mesh => {
+                            if (mesh.geometry) mesh.geometry.dispose();
+                        });
+                        scene.remove(chunk);
+                        chunks.delete(key);
+                        
+                        // Remove blocks from world map
+                        const [cx, cz] = key.split(',').map(Number);
+                        const startX = cx * CHUNK_SIZE;
+                        const startZ = cz * CHUNK_SIZE;
+                        
+                        for (let x = 0; x < CHUNK_SIZE; x++) {
+                            for (let z = 0; z < CHUNK_SIZE; z++) {
+                                for (let y = 0; y < 50; y++) {
+                                    const blockKey = `${startX + x},${y},${startZ + z}`;
+                                    const blockData = world.get(blockKey);
+                                    if (blockData && !blockData.mesh) {
+                                        world.delete(blockKey);
+                                    }
                                 }
                             }
                         }
                     }
                 });
+                
+                isGenerating = false;
             }
         }
         
@@ -573,87 +720,99 @@
             const chunkKey = getChunkKey(chunkX, chunkZ);
             if (chunks.has(chunkKey)) return;
             
-            const startX = chunkX * CHUNK_SIZE;
-            const startZ = chunkZ * CHUNK_SIZE;
-            
-            // Create merged geometry for entire chunk
-            const geometries = {
-                grass: [],
-                dirt: [],
-                stone: [],
-                wood: [],
-                sand: []
-            };
-            
-            const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
-            
-            for (let x = 0; x < CHUNK_SIZE; x++) {
-                for (let z = 0; z < CHUNK_SIZE; z++) {
-                    const worldX = startX + x;
-                    const worldZ = startZ + z;
-                    
-                    // Improved terrain generation with multiple octaves
-                    const height = Math.floor(
-                        10 * Math.sin(worldX * 0.05) * Math.cos(worldZ * 0.05) +
-                        6 * Math.sin(worldX * 0.1) * Math.cos(worldZ * 0.08) +
-                        4 * Math.sin(worldX * 0.2) * Math.cos(worldZ * 0.15) +
-                        2 * Math.sin(worldX * 0.3) * Math.cos(worldZ * 0.25) +
-                        20
-                    );
-                    
-                    for (let y = 0; y <= height; y++) {
-                        let blockType = 'stone';
+            try {
+                const startX = chunkX * CHUNK_SIZE;
+                const startZ = chunkZ * CHUNK_SIZE;
+                
+                // Create merged geometry for entire chunk
+                const geometries = {
+                    grass: [],
+                    dirt: [],
+                    stone: [],
+                    wood: [],
+                    sand: []
+                };
+                
+                const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+                
+                for (let x = 0; x < CHUNK_SIZE; x++) {
+                    for (let z = 0; z < CHUNK_SIZE; z++) {
+                        const worldX = startX + x;
+                        const worldZ = startZ + z;
                         
-                        if (y === height && height > 18) {
-                            blockType = 'grass';
-                        } else if (y >= height - 3 && height > 18) {
-                            blockType = 'dirt';
-                        } else if (height <= 18) {
-                            blockType = y === height ? 'sand' : (y >= height - 2 ? 'sand' : 'stone');
-                        }
+                        // Improved terrain generation with multiple octaves
+                        const height = Math.floor(
+                            10 * Math.sin(worldX * 0.05) * Math.cos(worldZ * 0.05) +
+                            6 * Math.sin(worldX * 0.1) * Math.cos(worldZ * 0.08) +
+                            4 * Math.sin(worldX * 0.2) * Math.cos(worldZ * 0.15) +
+                            2 * Math.sin(worldX * 0.3) * Math.cos(worldZ * 0.25) +
+                            20
+                        );
                         
-                        // Check if block is visible (has at least one exposed face)
-                        if (isBlockVisible(worldX, y, worldZ, height)) {
-                            const tempGeo = boxGeometry.clone();
-                            tempGeo.translate(worldX, y, worldZ);
-                            geometries[blockType].push(tempGeo);
+                        for (let y = 0; y <= height; y++) {
+                            let blockType = 'stone';
                             
-                            // Store block data
-                            const key = `${worldX},${y},${worldZ}`;
-                            world.set(key, { type: blockType, chunkKey: chunkKey });
+                            if (y === height && height > 18) {
+                                blockType = 'grass';
+                            } else if (y >= height - 3 && height > 18) {
+                                blockType = 'dirt';
+                            } else if (height <= 18) {
+                                blockType = y === height ? 'sand' : (y >= height - 2 ? 'sand' : 'stone');
+                            }
+                            
+                            // Check if block is visible (has at least one exposed face)
+                            if (isBlockVisible(worldX, y, worldZ, height)) {
+                                const tempGeo = boxGeometry.clone();
+                                tempGeo.translate(worldX, y, worldZ);
+                                geometries[blockType].push(tempGeo);
+                                
+                                // Store block data
+                                const key = `${worldX},${y},${worldZ}`;
+                                world.set(key, { type: blockType, chunkKey: chunkKey });
+                            }
+                        }
+                        
+                        // Trees with consistent seeded random
+                        const treeRandom = Math.abs(Math.sin(worldX * 12.9898 + worldZ * 78.233) * 43758.5453) % 1;
+                        if (height > 18 && treeRandom < 0.006) { // Reduced tree density
+                            addTreeToGeometries(worldX, height + 1, worldZ, geometries, boxGeometry);
                         }
                     }
-                    
-                    // Trees with consistent seeded random
-                    const treeRandom = Math.abs(Math.sin(worldX * 12.9898 + worldZ * 78.233) * 43758.5453) % 1;
-                    if (height > 18 && treeRandom < 0.008) {
-                        addTreeToGeometries(worldX, height + 1, worldZ, geometries, boxGeometry);
+                }
+                
+                // Merge and create meshes
+                const chunkGroup = new THREE.Group();
+                
+                for (const [type, geoArray] of Object.entries(geometries)) {
+                    if (geoArray.length > 0) {
+                        try {
+                            const mergedGeometry = mergeGeometries(geoArray);
+                            
+                            if (mergedGeometry && materials[type]) {
+                                const mesh = new THREE.Mesh(mergedGeometry, materials[type]);
+                                mesh.castShadow = !isMobile;
+                                mesh.receiveShadow = !isMobile;
+                                mesh.frustumCulled = true;
+                                chunkGroup.add(mesh);
+                            }
+                            
+                            // Cleanup
+                            geoArray.forEach(g => {
+                                if (g && g.dispose) g.dispose();
+                            });
+                        } catch (e) {
+                            console.error('Error merging geometries:', e);
+                        }
                     }
                 }
+                
+                scene.add(chunkGroup);
+                chunks.set(chunkKey, chunkGroup);
+                
+                boxGeometry.dispose();
+            } catch (error) {
+                console.error('Error generating chunk:', error);
             }
-            
-            // Merge and create meshes
-            const chunkGroup = new THREE.Group();
-            
-            for (const [type, geoArray] of Object.entries(geometries)) {
-                if (geoArray.length > 0) {
-                    const mergedGeometry = mergeGeometries(geoArray);
-                    
-                    const mesh = new THREE.Mesh(mergedGeometry, materials[type]);
-                    mesh.castShadow = true;
-                    mesh.receiveShadow = true;
-                    mesh.frustumCulled = true;
-                    chunkGroup.add(mesh);
-                    
-                    // Cleanup
-                    geoArray.forEach(g => g.dispose());
-                }
-            }
-            
-            scene.add(chunkGroup);
-            chunks.set(chunkKey, chunkGroup);
-            
-            boxGeometry.dispose();
         }
         
         function mergeGeometries(geometries) {
@@ -974,7 +1133,7 @@
                 for (let y = minY; y <= maxY; y++) {
                     for (let z = minZ; z <= maxZ; z++) {
                         const blockData = getBlockData(x, y, z);
-                        if (blockData) {
+                        if (blockData && blockData.type) {
                             const blockBox = new THREE.Box3(
                                 new THREE.Vector3(x - 0.5, y - 0.5, z - 0.5),
                                 new THREE.Vector3(x + 0.5, y + 0.5, z + 0.5)
@@ -1042,7 +1201,7 @@
                     Math.floor(player.position.z)
                 );
                 
-                if (groundBlock && player.velocity.y <= 0) {
+                if (groundBlock && groundBlock.type && player.velocity.y <= 0) {
                     const distToGround = player.position.y - player.height - (groundY + 0.5);
                     if (distToGround < 0.1) {
                         player.position.y = groundY + 0.5 + player.height;
@@ -1121,7 +1280,7 @@
                 const key = `${blockX},${blockY},${blockZ}`;
                 const blockData = world.get(key);
                 
-                if (blockData) {
+                if (blockData && blockData.type) {
                     return { x: blockX, y: blockY, z: blockZ };
                 }
             }
@@ -1239,30 +1398,48 @@
             });
             
             document.getElementById('startButton').addEventListener('click', () => {
-                document.getElementById('instructions').style.display = 'none';
-                if (!isMobile) {
-                    renderer.domElement.requestPointerLock();
-                } else {
-                    isPointerLocked = true;
-                    
-                    // Request device orientation permission for iOS 13+
-                    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                        DeviceOrientationEvent.requestPermission()
-                            .then(permissionState => {
-                                if (permissionState === 'granted') {
-                                    enableGyroscope();
-                                }
-                            })
-                            .catch(console.error);
+                const loadingText = document.getElementById('loadingText');
+                const startButton = document.getElementById('startButton');
+                
+                startButton.disabled = true;
+                startButton.textContent = 'Loading...';
+                loadingText.style.display = 'block';
+                
+                setTimeout(() => {
+                    document.getElementById('instructions').style.display = 'none';
+                    if (!isMobile) {
+                        renderer.domElement.requestPointerLock();
                     } else {
-                        enableGyroscope();
+                        isPointerLocked = true;
                     }
-                }
+                }, 100);
             });
+            
+            function requestGyroPermission() {
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    DeviceOrientationEvent.requestPermission()
+                        .then(permissionState => {
+                            if (permissionState === 'granted') {
+                                enableGyroscope();
+                                document.getElementById('gyro-toggle').textContent = 'Gyro: ON';
+                                document.getElementById('gyro-toggle').classList.add('active');
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Gyroscope permission denied:', err);
+                            alert('Gyroscope permission denied. You can still use touch controls.');
+                        });
+                } else {
+                    enableGyroscope();
+                    document.getElementById('gyro-toggle').textContent = 'Gyro: ON';
+                    document.getElementById('gyro-toggle').classList.add('active');
+                }
+            }
             
             function enableGyroscope() {
                 window.addEventListener('deviceorientation', handleOrientation, true);
                 gyroEnabled = true;
+                gyroInitialized = true;
             }
             
             function handleOrientation(event) {
@@ -1271,17 +1448,25 @@
                 const alpha = event.alpha; // Z axis (compass)
                 const beta = event.beta;   // X axis (front-back tilt)
                 
-                if (lastGyroAlpha !== 0) {
-                    const deltaAlpha = (alpha - lastGyroAlpha) * 0.01;
-                    const deltaBeta = (beta - lastGyroBeta) * 0.01;
+                if (lastGyroAlpha !== 0 && alpha !== null && beta !== null) {
+                    let deltaAlpha = alpha - lastGyroAlpha;
                     
-                    player.rotation.y -= deltaAlpha;
-                    player.rotation.x -= deltaBeta;
+                    // Handle 360/0 wrap-around
+                    if (deltaAlpha > 180) deltaAlpha -= 360;
+                    if (deltaAlpha < -180) deltaAlpha += 360;
+                    
+                    const deltaBeta = beta - lastGyroBeta;
+                    
+                    const sensitivity = 0.015;
+                    player.rotation.y -= deltaAlpha * sensitivity;
+                    player.rotation.x -= deltaBeta * sensitivity;
                     player.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, player.rotation.x));
                 }
                 
-                lastGyroAlpha = alpha;
-                lastGyroBeta = beta;
+                if (alpha !== null && beta !== null) {
+                    lastGyroAlpha = alpha;
+                    lastGyroBeta = beta;
+                }
             }
             
             document.querySelectorAll('.inventory-slot').forEach(slot => {
@@ -1317,7 +1502,7 @@
                     const deltaX = joystickCurrentPos.x - joystickStartPos.x;
                     const deltaY = joystickCurrentPos.y - joystickStartPos.y;
                     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                    const maxDistance = 35;
+                    const maxDistance = 45;
                     
                     if (distance > maxDistance) {
                         const angle = Math.atan2(deltaY, deltaX);
@@ -1325,7 +1510,9 @@
                         joystickCurrentPos.y = joystickStartPos.y + Math.sin(angle) * maxDistance;
                     }
                     
-                    joystickInner.style.transform = `translate(${joystickCurrentPos.x - joystickStartPos.x}px, ${joystickCurrentPos.y - joystickStartPos.y}px)`;
+                    const offsetX = joystickCurrentPos.x - joystickStartPos.x;
+                    const offsetY = joystickCurrentPos.y - joystickStartPos.y;
+                    joystickInner.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
                 }
             });
             
@@ -1335,14 +1522,22 @@
                 joystickInner.style.transform = 'translate(0, 0)';
             });
             
-            // Mobile buttons
+            // Mobile buttons with haptic feedback
+            function triggerHaptic() {
+                if (navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
+            }
+            
             document.getElementById('mobile-jump').addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 mobileJump = true;
+                triggerHaptic();
             });
             
             document.getElementById('mobile-mine').addEventListener('touchstart', (e) => {
                 e.preventDefault();
+                triggerHaptic();
                 const blockPos = getTargetBlock();
                 if (blockPos) {
                     removeBlock(blockPos.x, blockPos.y, blockPos.z);
@@ -1351,6 +1546,7 @@
             
             document.getElementById('mobile-place').addEventListener('touchstart', (e) => {
                 e.preventDefault();
+                triggerHaptic();
                 const result = getTargetBlockAndFace();
                 if (result) {
                     const newPos = new THREE.Vector3(
@@ -1393,6 +1589,7 @@
             const lookArea = document.getElementById('mobile-look-area');
             
             lookArea.addEventListener('touchstart', (e) => {
+                if (!touchLookEnabled) return;
                 const touch = e.touches[0];
                 lastTouchLookX = touch.clientX;
                 lastTouchLookY = touch.clientY;
@@ -1400,19 +1597,42 @@
             
             lookArea.addEventListener('touchmove', (e) => {
                 e.preventDefault();
-                if (!isPointerLocked) return;
+                if (!isPointerLocked || !touchLookEnabled) return;
                 
                 const touch = e.touches[0];
                 const deltaX = touch.clientX - lastTouchLookX;
                 const deltaY = touch.clientY - lastTouchLookY;
                 
-                const sensitivity = 0.003;
+                const sensitivity = 0.004;
                 player.rotation.y -= deltaX * sensitivity;
                 player.rotation.x -= deltaY * sensitivity;
                 player.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, player.rotation.x));
                 
                 lastTouchLookX = touch.clientX;
                 lastTouchLookY = touch.clientY;
+            });
+            
+            // Mobile control toggles
+            document.getElementById('gyro-toggle').addEventListener('click', function() {
+                if (gyroEnabled) {
+                    gyroEnabled = false;
+                    this.textContent = 'Gyro: OFF';
+                    this.classList.remove('active');
+                } else {
+                    if (!gyroInitialized) {
+                        requestGyroPermission();
+                    } else {
+                        gyroEnabled = true;
+                        this.textContent = 'Gyro: ON';
+                        this.classList.add('active');
+                    }
+                }
+            });
+            
+            document.getElementById('touch-toggle').addEventListener('click', function() {
+                touchLookEnabled = !touchLookEnabled;
+                this.textContent = touchLookEnabled ? 'Touch: ON' : 'Touch: OFF';
+                this.classList.toggle('active');
             });
         }
         
