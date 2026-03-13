@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Holiday Countdown</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 50px; background: #2c3e50; color: white; }
+        .container { max-width: 600px; margin: auto; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; }
+        h1 { margin-bottom: 10px; font-size: 1.5rem; }
+        #event-name { color: #f1c40f; font-size: 2.2rem; display: block; margin-bottom: 20px; }
+        
+        ul { list-style: none; padding: 0; display: flex; justify-content: center; gap: 15px; }
+        li { background: #ecf0f1; color: #2c3e50; padding: 15px; border-radius: 8px; min-width: 70px; }
+        span { display: block; font-size: 2rem; font-weight: bold; }
+        label { font-size: 0.8rem; text-transform: uppercase; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Next Major Event:</h1>
+        <span id="event-name">Loading...</span>
+        
+        <ul id="countdown">
+            <li><span id="days">00</span><label>Days</label></li>
+            <li><span id="hours">00</span><label>Hours</label></li>
+            <li><span id="minutes">00</span><label>Minutes</label></li>
+            <li><span id="seconds">00</span><label>Seconds</label></li>
+        </ul>
+    </div>
+
+    <script>
+        // List of major holidays for 2026
+        const holidays = [
+            { name: "Good Friday", date: "April 3, 2026" },
+            { name: "Easter Monday", date: "April 6, 2026" },
+            { name: "Victoria Day", date: "May 18, 2026" },
+            { name: "Canada Day", date: "July 1, 2026" },
+            { name: "Labour Day", date: "September 7, 2026" },
+            { name: "Thanksgiving", date: "October 12, 2026" },
+            { name: "Halloween", date: "October 31, 2026" },
+            { name: "Remembrance Day", date: "November 11, 2026" },
+            { name: "Christmas", date: "December 25, 2026" }
+        ];
+
+        function getNextHoliday() {
+            const now = new Date().getTime();
+            // Find the first holiday in the array that is in the future
+            return holidays.find(h => new Date(h.date).getTime() > now) || holidays[0];
+        }
+
+        const nextEvent = getNextHoliday();
+        document.getElementById("event-name").innerText = nextEvent.name;
+        const targetDate = new Date(nextEvent.date).getTime();
+
+        const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                clearInterval(timer);
+                location.reload(); // Refresh to start countdown for the next holiday
+                return;
+            }
+
+            document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }, 1000);
+    </script>
+</body>
+</html>
