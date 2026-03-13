@@ -2,23 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dynamic Holiday Countdown</title>
+    <title>Festive Holiday Countdown</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 50px; background: #2c3e50; color: white; }
-        .container { max-width: 600px; margin: auto; background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; }
-        h1 { margin-bottom: 10px; font-size: 1.5rem; }
-        #event-name { color: #f1c40f; font-size: 2.2rem; display: block; margin-bottom: 20px; }
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; padding: 50px; background: #1a1a1a; color: white; overflow: hidden; }
+        .container { position: relative; z-index: 10; max-width: 600px; margin: auto; background: rgba(0,0,0,0.6); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        h1 { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; }
+        #event-name { color: #f1c40f; font-size: 2.5rem; display: block; margin-bottom: 20px; text-shadow: 0 0 10px rgba(241, 196, 15, 0.5); }
         
         ul { list-style: none; padding: 0; display: flex; justify-content: center; gap: 15px; }
-        li { background: #ecf0f1; color: #2c3e50; padding: 15px; border-radius: 8px; min-width: 70px; }
+        li { background: white; color: #333; padding: 15px; border-radius: 10px; min-width: 80px; }
         span { display: block; font-size: 2rem; font-weight: bold; }
-        label { font-size: 0.8rem; text-transform: uppercase; font-weight: bold; }
+        label { font-size: 0.8rem; text-transform: uppercase; color: #666; }
+
+        /* Particle Animation Styles */
+        .particle {
+            position: fixed; top: -50px; z-index: 1;
+            user-select: none; pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0.3; }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Next Major Event:</h1>
+        <h1>Counting down to:</h1>
         <span id="event-name">Loading...</span>
         
         <ul id="countdown">
@@ -30,44 +42,52 @@
     </div>
 
     <script>
-        // List of major holidays for 2026
         const holidays = [
-            { name: "Good Friday", date: "April 3, 2026" },
-            { name: "Easter Monday", date: "April 6, 2026" },
-            { name: "Victoria Day", date: "May 18, 2026" },
-            { name: "Canada Day", date: "July 1, 2026" },
-            { name: "Labour Day", date: "September 7, 2026" },
-            { name: "Thanksgiving", date: "October 12, 2026" },
-            { name: "Halloween", date: "October 31, 2026" },
-            { name: "Remembrance Day", date: "November 11, 2026" },
-            { name: "Christmas", date: "December 25, 2026" }
+            { name: "Good Friday", date: "April 3, 2026", icon: "🌸" },
+            { name: "Victoria Day", date: "May 18, 2026", icon: "👑" },
+            { name: "Canada Day", date: "July 1, 2026", icon: "🍁" },
+            { name: "Halloween", date: "October 31, 2026", icon: "🎃" },
+            { name: "Christmas", date: "December 25, 2026", icon: "❄️" }
         ];
 
-        function getNextHoliday() {
+        function getNextEvent() {
             const now = new Date().getTime();
-            // Find the first holiday in the array that is in the future
             return holidays.find(h => new Date(h.date).getTime() > now) || holidays[0];
         }
 
-        const nextEvent = getNextHoliday();
+        const nextEvent = getNextEvent();
         document.getElementById("event-name").innerText = nextEvent.name;
-        const targetDate = new Date(nextEvent.date).getTime();
 
-        const timer = setInterval(() => {
+        // Particle Generator
+        function createParticles() {
+            const particleCount = 30;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.innerText = nextEvent.icon; // Uses the holiday's specific icon
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                p.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                p.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(p);
+            }
+        }
+
+        // Timer Logic
+        const targetDate = new Date(nextEvent.date).getTime();
+        const update = setInterval(() => {
             const now = new Date().getTime();
             const diff = targetDate - now;
 
-            if (diff <= 0) {
-                clearInterval(timer);
-                location.reload(); // Refresh to start countdown for the next holiday
-                return;
-            }
+            if (diff <= 0) { clearInterval(update); location.reload(); }
 
             document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
             document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
         }, 1000);
+
+        createParticles();
     </script>
 </body>
 </html>
