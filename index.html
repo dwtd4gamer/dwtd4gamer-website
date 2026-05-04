@@ -1,116 +1,191 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>dwtd4gamer</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="favicon.png" />
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Open Sans', sans-serif;
-      background-color: #f5f7fa;
-      color: #222;
-      display: flex;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-
-    .container {
-      max-width: 600px;
-      width: 100%;
-      text-align: center;
-    }
-
-    h1 {
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    p.subtitle {
-      color: #666;
-      margin-bottom: 40px;
-    }
-
-    .card {
-      background: white;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    }
-
-    ul {
-      list-style: none;
-    }
-
-    li {
-      margin: 12px 0;
-    }
-
-    a {
-      display: block;
-      text-decoration: none;
-      background: #f1f3f6;
-      padding: 12px;
-      border-radius: 10px;
-      font-weight: 600;
-      color: #333;
-      transition: all 0.2s ease;
-    }
-
-    a:hover {
-      background: #e4e8ee;
-      transform: translateY(-2px);
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #888;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>dwtd4gamer — modern</title>
+<link rel="icon" href="favicon.png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#0f1724;
+    --bg2:#0b1220;
+    --accent1:#7c5cff;
+    --accent2:#22d3ee;
+    --glass-border: rgba(255,255,255,0.12);
+    --text: #e6eef8;
+    --muted: #b9c6d8;
+    --card-radius: 18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 500px at 10% 10%, rgba(124,92,255,0.12), transparent 6%),
+                radial-gradient(900px 400px at 90% 90%, rgba(34,211,238,0.08), transparent 6%),
+                linear-gradient(160deg,var(--bg1),var(--bg2));
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:36px;
+  }
+  .blobs{position:fixed;inset:-20%;z-index:0;pointer-events:none}
+  .blob{position:absolute;filter: blur(60px) saturate(120%);mix-blend-mode: screen;border-radius:50%;opacity:0.9;animation:float 12s ease-in-out infinite}
+  .b1{width:520px;height:520px;background:linear-gradient(120deg,var(--accent1),#ff7ab6);left:-8%;top:5%;animation-duration:16s}
+  .b2{width:420px;height:420px;background:linear-gradient(120deg,var(--accent2),#5ef3a2);right:-4%;bottom:2%;animation-duration:14s;animation-delay:1s}
+  .b3{width:320px;height:320px;background:linear-gradient(120deg,#ffd36b,#ff8b5a);left:30%;bottom:-10%;animation-duration:18s;animation-delay:2s}
+  @keyframes float{0%{transform: translateY(0) rotate(0deg) scale(1)}50%{transform: translateY(-40px) rotate(8deg) scale(1.05)}100%{transform: translateY(0) rotate(0deg) scale(1)}}
+  .wrap{width:100%;max-width:980px;z-index:2;display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start}
+  .card{background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));border:1px solid var(--glass-border);backdrop-filter: blur(10px) saturate(120%);padding:30px;border-radius:var(--card-radius);box-shadow: 0 8px 30px rgba(2,6,23,0.6)}
+  header.site-head{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  .logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:20px;box-shadow: 0 6px 20px rgba(124,92,255,0.18), inset 0 -4px 20px rgba(255,255,255,0.06)}
+  h1{font-size:20px;line-height:1;color:var(--text)}
+  p.subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+  nav.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+  nav.links a{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);color:var(--text);text-decoration:none;font-weight:600;font-size:14px;transition: transform .14s ease, box-shadow .14s ease}
+  nav.links a:hover{transform: translateY(-6px);box-shadow:0 10px 30px rgba(2,6,23,0.5)}
+  nav.links a .dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px;box-shadow:0 4px 10px rgba(0,0,0,0.35)}
+  .side{display:flex;flex-direction:column;gap:18px;position:sticky;top:36px;align-self:start}
+  .widget{padding:18px;border-radius:14px;background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);backdrop-filter: blur(6px);color:var(--text)}
+  .topbar{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:12px;align-items:center;padding:8px 14px;border-radius:999px;background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);backdrop-filter: blur(8px);box-shadow:0 8px 30px rgba(2,6,23,0.5)}
+  .topbar .time-small{font-weight:700;font-size:13px}
+  .topbar .tz-small{font-size:11px;color:var(--muted);margin-left:6px}
+  .weather .temp{font-size:28px;font-weight:700}
+  .weather .cond{color:var(--muted);font-size:13px}
+  .weather .meta{display:flex;gap:12px;color:var(--muted);font-size:13px;margin-top:8px}
+  footer{margin-top:20px;font-size:12px;color:var(--muted);text-align:center}
+  @media (max-width:900px){.wrap{grid-template-columns:1fr;padding-bottom:40px}.side{position:relative;top:0}.topbar{left:12px;transform:none}}
+</style>
 </head>
-
 <body>
-  <div class="container">
-
-    <h1>dwtd4gamer</h1>
-    <p class="subtitle">Welcome to my website</p>
-
-    <div class="card">
-      <ul>
-        <li><a href="https://dwtd4gamer.vercel.app/chat.html">Chat Website</a></li>
-        <li><a href="https://croosyrod.w3spaces.com/home.html">Po Macks Gam 10000</a></li>
-        <li><a href="https://dwtd4gamer.vercel.app/hewoeoney.html">vsit eoney's wabsit</a></li>
-        <li><a href="https://whale64.net">Whale64 Website</a></li>
-        <li><a href="https://scratch.mit.edu/users/@dwtd4gamer">My Scratch Profile</a></li>
-        <li><a href="https://archive.org/details/scratch-games-by-dwtd4gamer_20250516">Download My Scratch Projects!</a></li>
-        <li><a href="https://eoney.w3spaces.com">vsit da ofishal wabsit dy eoney!</a></li>
-        <li><a href="https://10minutemail.com">Temporary Email Site</a></li>
-        <li><a href="https://dwtd4gamer.vercel.app/breakmake.html">Play BreakMake!</a></li>
-        <li><a href="https://dwtd4gamer.vercel.app/breakmake2.html">Play BreakMake 2</a></li>
-        <li><a href="https://dwtd4gamer.vercel.app/eoneyprojekts.html">mor eoney stoff!</a></li>
-        <li><a href="https://dwtd4gamer.vercel.app/podcasts.html">Podcasts (coming soon)</a></li>
-
-      </ul>
-    </div>
-
-    <footer>
-      © 2026 Cosmo Co. All Rights Reserved.
-    </footer>
-
+  <div class="topbar" role="status" aria-live="polite">
+    <div class="time-small" id="topTime">--:--</div>
+    <div class="tz-small" id="topTz">—</div>
   </div>
-  </script>
-  <script id="_waunc5">var _wau = _wau || []; _wau.push(["classic", "vkiletyuv6", "nc5"]);</script>
-  <script async src="//waust.at/c.js"></script>
+
+  <div class="blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="wrap">
+    <main class="card" role="main">
+      <header class="site-head">
+        <div class="logo">DW</div>
+        <div>
+          <h1>dwtd4gamer</h1>
+          <p class="subtitle">A colorful, modern remake — links & projects</p>
+        </div>
+      </header>
+
+      <nav class="links" aria-label="Quick links">
+        <a href="https://dwtd4gamer.vercel.app/chat.html"><span class="dot" style="background:linear-gradient(90deg,#ffd36b,#ff7ab6)"></span>Chat Website</a>
+        <a href="https://croosyrod.w3spaces.com/home.html"><span class="dot" style="background:linear-gradient(90deg,#7c5cff,#22d3ee)"></span>Po Macks Gam 10000</a>
+        <a href="https://dwtd4gamer.vercel.app/hewoeoney.html"><span class="dot" style="background:linear-gradient(90deg,#5ef3a2,#ffd36b)"></span>vsit eoney's wabsit</a>
+        <a href="https://whale64.net"><span class="dot" style="background:linear-gradient(90deg,#ff7ab6,#7c5cff)"></span>Whale64 Website</a>
+        <a href="https://scratch.mit.edu/users/@dwtd4gamer"><span class="dot" style="background:linear-gradient(90deg,#22d3ee,#5ef3a2)"></span>My Scratch Profile</a>
+        <a href="https://archive.org/details/scratch-games-by-dwtd4gamer_20250516"><span class="dot" style="background:linear-gradient(90deg,#ffd36b,#ff8b5a)"></span>Download My Scratch Projects!</a>
+        <a href="https://eoney.w3spaces.com"><span class="dot" style="background:linear-gradient(90deg,#7c5cff,#ff7ab6)"></span>vsit da ofishal wabsit dy eoney!</a>
+        <a href="https://10minutemail.com"><span class="dot" style="background:linear-gradient(90deg,#22d3ee,#ffd36b)"></span>Temporary Email Site</a>
+        <a href="https://dwtd4gamer.vercel.app/breakmake.html"><span class="dot" style="background:linear-gradient(90deg,#ff8b5a,#ff7ab6)"></span>Play BreakMake!</a>
+        <a href="https://dwtd4gamer.vercel.app/breakmake2.html"><span class="dot" style="background:linear-gradient(90deg,#5ef3a2,#7c5cff)"></span>Play BreakMake 2</a>
+        <a href="https://dwtd4gamer.vercel.app/eoneyprojekts.html"><span class="dot" style="background:linear-gradient(90deg,#ffd36b,#22d3ee)"></span>mor eoney stoff!</a>
+        <a href="https://dwtd4gamer.vercel.app/podcasts.html"><span class="dot" style="background:linear-gradient(90deg,#7c5cff,#5ef3a2)"></span>Podcasts (coming soon)</a>
+      </nav>
+
+      <footer>© 2026 Cosmo Co. All Rights Reserved.</footer>
+    </main>
+
+    <aside class="side">
+      <div class="widget weather" id="weatherWidget" aria-live="polite">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:12px;color:var(--muted)">Current Weather</div>
+            <div class="temp" id="temp">--°</div>
+            <div class="cond" id="cond">Loading…</div>
+          </div>
+          <div style="text-align:right;color:var(--muted)" id="loc">—</div>
+        </div>
+        <div class="meta">
+          <div id="wind">Wind: —</div>
+          <div id="hum">Humidity: —</div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--muted)">Showing Ottawa and Hamilton (wttr.in no API key)</div>
+
+        <!-- location selector -->
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button id="ottBtn" style="flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);cursor:pointer">Ottawa</button>
+          <button id="hamBtn" style="flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);cursor:pointer">Hamilton</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+<script>
+/* Top small time widget */
+(function(){
+  const timeEl = document.getElementById('topTime');
+  const tzEl = document.getElementById('topTz');
+  function updateTime(){
+    const now = new Date();
+    const hh = now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
+    timeEl.textContent = hh;
+    tzEl.textContent = tz;
+  }
+  updateTime();
+  setInterval(updateTime, 1000);
+})();
+
+/* Weather for Ottawa and Hamilton using wttr.in (no key).
+   Predefined coordinates used (no geolocation) for deterministic results.
+*/
+(function(){
+  const tempEl = document.getElementById('temp');
+  const condEl = document.getElementById('cond');
+  const locEl = document.getElementById('loc');
+  const windEl = document.getElementById('wind');
+  const humEl = document.getElementById('hum');
+
+  const locations = {
+    ottawa: {label: 'Ottawa, ON', query: 'Ottawa'},
+    hamilton: {label: 'Hamilton, ON', query: 'Hamilton'}
+  };
+
+  function showError(msg){
+    condEl.textContent = msg;
+    tempEl.textContent = '--°';
+    locEl.textContent = '';
+    windEl.textContent = 'Wind: —';
+    humEl.textContent = 'Humidity: —';
+  }
+
+  function fetchWttrFor(query){
+    // wttr.in supports city name queries and returns JSON at ?format=j1
+    const url = `https://wttr.in/${encodeURIComponent(query)}?format=j1`;
+    condEl.textContent = 'Loading…';
+    fetch(url).then(r=>{
+      if(!r.ok) throw new Error('Weather fetch failed');
+      return r.json();
+    }).then(data=>{
+      const cur = data.current_condition && data.current_condition[0];
+      if(!cur) return showError('No data');
+      tempEl.textContent = `${cur.temp_C}°C`;
+      condEl.textContent = (cur.weatherDesc && cur.weatherDesc[0] && cur.weatherDesc[0].value) || '—';
+      locEl.textContent = (data.nearest_area && data.nearest_area[0] && data.nearest_area[0].areaName && data.nearest_area[0].areaName[0].value) || query;
+      windEl.textContent = `Wind: ${cur.windspeedKmph} km/h`;
+      humEl.textContent = `Humidity: ${cur.humidity}%`;
+    }).catch(()=> showError('Unable to load'));
+  }
+
+  // initial: Ottawa
+  fetchWttrFor(locations.ottawa.query);
+
+  document.getElementById('ottBtn').addEventListener('click', ()=> fetchWttrFor(locations.ottawa.query));
+  document.getElementById('hamBtn').addEventListener('click', ()=> fetchWttrFor(locations.hamilton.query));
+})();
+</script>
 </body>
 </html>
