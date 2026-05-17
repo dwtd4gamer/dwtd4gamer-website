@@ -1,189 +1,674 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>dwtd4gamer site</title>
-<link rel="icon" href="favicon.png" />
+
+<link rel="icon" href="favicon.png">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
 <style>
-  :root{
-    --bg1:#0f1724;
-    --bg2:#0b1220;
-    --accent1:#7c5cff;
-    --accent2:#22d3ee;
-    --glass-border: rgba(255,255,255,0.12);
-    --text: #e6eef8;
-    --muted: #b9c6d8;
-    --card-radius: 18px;
+
+:root{
+  --bg1:#060816;
+  --bg2:#0f1724;
+  --bg3:#170b2c;
+
+  --accent1:#7c5cff;
+  --accent2:#22d3ee;
+  --accent3:#ff4fd8;
+  --accent4:#5ef3a2;
+
+  --text:#ecf3ff;
+  --muted:#b7c7da;
+
+  --glass:rgba(255,255,255,0.05);
+  --border:rgba(255,255,255,0.08);
+
+  --radius:20px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  height:100%;
+}
+
+body{
+  font-family:"Inter",sans-serif;
+  color:var(--text);
+
+  background:
+    radial-gradient(circle at top left, rgba(124,92,255,0.28), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(34,211,238,0.22), transparent 30%),
+    radial-gradient(circle at center, rgba(255,79,216,0.15), transparent 40%),
+    linear-gradient(160deg,var(--bg1),var(--bg2),var(--bg3));
+
+  overflow-x:hidden;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:40px;
+}
+
+/* FLOATING BLOBS */
+
+.blobs{
+  position:fixed;
+  inset:-20%;
+  pointer-events:none;
+  z-index:0;
+}
+
+.blob{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:0.8;
+  animation:float 16s ease-in-out infinite;
+}
+
+.b1{
+  width:500px;
+  height:500px;
+  background:#7c5cff;
+  top:0;
+  left:0;
+}
+
+.b2{
+  width:450px;
+  height:450px;
+  background:#22d3ee;
+  bottom:0;
+  right:0;
+}
+
+.b3{
+  width:350px;
+  height:350px;
+  background:#ff4fd8;
+  left:35%;
+  bottom:-10%;
+}
+
+@keyframes float{
+  0%{
+    transform:translateY(0px) scale(1);
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: radial-gradient(1200px 500px at 10% 10%, rgba(124,92,255,0.12), transparent 6%),
-                radial-gradient(900px 400px at 90% 90%, rgba(34,211,238,0.08), transparent 6%),
-                linear-gradient(160deg,var(--bg1),var(--bg2));
-    color:var(--text);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:36px;
+  50%{
+    transform:translateY(-40px) scale(1.08);
   }
-  .blobs{position:fixed;inset:-20%;z-index:0;pointer-events:none}
-  .blob{position:absolute;filter: blur(60px) saturate(120%);mix-blend-mode: screen;border-radius:50%;opacity:0.9;animation:float 12s ease-in-out infinite}
-  .b1{width:520px;height:520px;background:linear-gradient(120deg,var(--accent1),#ff7ab6);left:-8%;top:5%;animation-duration:16s}
-  .b2{width:420px;height:420px;background:linear-gradient(120deg,var(--accent2),#5ef3a2);right:-4%;bottom:2%;animation-duration:14s;animation-delay:1s}
-  .b3{width:320px;height:320px;background:linear-gradient(120deg,#ffd36b,#ff8b5a);left:30%;bottom:-10%;animation-duration:18s;animation-delay:2s}
-  @keyframes float{0%{transform: translateY(0) rotate(0deg) scale(1)}50%{transform: translateY(-40px) rotate(8deg) scale(1.05)}100%{transform: translateY(0) rotate(0deg) scale(1)}}
-  .wrap{width:100%;max-width:980px;z-index:2;display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start}
-  .card{background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));border:1px solid var(--glass-border);backdrop-filter: blur(10px) saturate(120%);padding:30px;border-radius:var(--card-radius);box-shadow: 0 8px 30px rgba(2,6,23,0.6)}
-  header.site-head{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-  .logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:20px;box-shadow: 0 6px 20px rgba(124,92,255,0.18), inset 0 -4px 20px rgba(255,255,255,0.06)}
-  h1{font-size:20px;line-height:1;color:var(--text)}
-  p.subtitle{color:var(--muted);font-size:13px;margin-top:4px}
-  nav.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
-  nav.links a{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);color:var(--text);text-decoration:none;font-weight:600;font-size:14px;transition: transform .14s ease, box-shadow .14s ease}
-  nav.links a:hover{transform: translateY(-6px);box-shadow:0 10px 30px rgba(2,6,23,0.5)}
-  nav.links a .dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px;box-shadow:0 4px 10px rgba(0,0,0,0.35)}
-  .side{display:flex;flex-direction:column;gap:18px;position:sticky;top:36px;align-self:start}
-  .widget{padding:18px;border-radius:14px;background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);backdrop-filter: blur(6px);color:var(--text)}
-  .topbar{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:12px;align-items:center;padding:8px 14px;border-radius:999px;background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);backdrop-filter: blur(8px);box-shadow:0 8px 30px rgba(2,6,23,0.5)}
-  .topbar .time-small{font-weight:700;font-size:13px}
-  .topbar .tz-small{font-size:11px;color:var(--muted);margin-left:6px}
-  .weather .temp{font-size:28px;font-weight:700}
-  .weather .cond{color:var(--muted);font-size:13px}
-  .weather .meta{display:flex;gap:12px;color:var(--muted);font-size:13px;margin-top:8px}
-  footer{margin-top:20px;font-size:12px;color:var(--muted);text-align:center}
-  @media (max-width:900px){.wrap{grid-template-columns:1fr;padding-bottom:40px}.side{position:relative;top:0}.topbar{left:12px;transform:none}}
+  100%{
+    transform:translateY(0px) scale(1);
+  }
+}
+
+/* LAYOUT */
+
+.wrap{
+  width:100%;
+  max-width:1150px;
+
+  display:grid;
+  grid-template-columns:1fr 360px;
+  gap:28px;
+
+  position:relative;
+  z-index:2;
+}
+
+.card,
+.widget{
+  background:var(--glass);
+
+  border:1px solid var(--border);
+
+  backdrop-filter:blur(18px);
+
+  border-radius:var(--radius);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* MAIN CARD */
+
+.card{
+  padding:32px;
+}
+
+.site-head{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin-bottom:24px;
+}
+
+.logo{
+  width:72px;
+  height:72px;
+
+  border-radius:18px;
+
+  background:
+    linear-gradient(135deg,var(--accent1),var(--accent2));
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:24px;
+  font-weight:800;
+
+  box-shadow:
+    0 10px 30px rgba(124,92,255,0.4);
+}
+
+h1{
+  font-size:24px;
+  font-weight:800;
+}
+
+.subtitle{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* LINKS */
+
+.links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+}
+
+.links a{
+  text-decoration:none;
+  color:var(--text);
+
+  padding:12px 16px;
+
+  border-radius:14px;
+
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,0.05),
+      rgba(255,255,255,0.02));
+
+  border:1px solid rgba(255,255,255,0.05);
+
+  transition:0.25s ease;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  font-weight:600;
+}
+
+.links a:hover{
+  transform:translateY(-5px);
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.4);
+}
+
+.dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+}
+
+/* WEATHER */
+
+.side{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+.widget{
+  padding:22px;
+}
+
+.temp{
+  font-size:42px;
+  font-weight:800;
+}
+
+.cond{
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.meta{
+  display:flex;
+  gap:16px;
+  margin-top:12px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.searchWrap{
+  margin-top:18px;
+}
+
+.searchBox{
+  width:100%;
+
+  padding:14px 16px;
+
+  border:none;
+  outline:none;
+
+  border-radius:16px;
+
+  background:
+    rgba(255,255,255,0.05);
+
+  color:var(--text);
+
+  font-size:15px;
+
+  border:1px solid rgba(255,255,255,0.06);
+
+  transition:0.2s ease;
+}
+
+.searchBox:focus{
+  border-color:#7c5cff;
+  box-shadow:
+    0 0 0 4px rgba(124,92,255,0.2);
+}
+
+.searchHint{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* SOCIAL ICONS */
+
+.socials{
+  margin-top:28px;
+
+  display:flex;
+  gap:16px;
+  justify-content:center;
+}
+
+.socialBtn{
+  width:58px;
+  height:58px;
+
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,0.06),
+      rgba(255,255,255,0.03));
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  transition:0.25s ease;
+}
+
+.socialBtn:hover{
+  transform:translateY(-6px) scale(1.05);
+}
+
+.socialBtn svg{
+  width:28px;
+  height:28px;
+  fill:white;
+}
+
+.facebook{
+  box-shadow:0 0 25px rgba(24,119,242,0.35);
+}
+
+.youtube{
+  box-shadow:0 0 25px rgba(255,0,0,0.35);
+}
+
+.instagram{
+  box-shadow:0 0 25px rgba(221,42,123,0.35);
+}
+
+/* TOP CLOCK */
+
+.topbar{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+
+  z-index:10;
+
+  padding:10px 18px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.06);
+
+  backdrop-filter:blur(18px);
+
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.time-small{
+  font-weight:700;
+}
+
+.tz-small{
+  color:var(--muted);
+  font-size:12px;
+}
+
+footer{
+  margin-top:28px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+}
+
+@media(max-width:900px){
+
+  .wrap{
+    grid-template-columns:1fr;
+  }
+
+}
+
 </style>
 </head>
+
 <body>
-  <div class="topbar" role="status" aria-live="polite">
-    <div class="time-small" id="topTime">--:--</div>
-    <div class="tz-small" id="topTz">—</div>
-  </div>
 
-  <div class="blobs" aria-hidden="true">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-  </div>
+<div class="topbar">
+  <div class="time-small" id="topTime">--:--</div>
+  <div class="tz-small" id="topTz">---</div>
+</div>
 
-  <div class="wrap">
-    <main class="card" role="main">
-      <header class="site-head">
-        <div>
-          <h1>dwtd4gamer</h1>
-          <p class="subtitle"></p>
-        </div>
-      </header>
+<div class="blobs">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
 
-      <nav class="links" aria-label="Quick links">
-        <a href="https://dwtd4gamer.vercel.app/chat.html"><span class="dot" style="background:linear-gradient(90deg,#ffd36b,#ff7ab6)"></span>Chat Website</a>
-        <a href="https://croosyrod.w3spaces.com/home.html"><span class="dot" style="background:linear-gradient(90deg,#7c5cff,#22d3ee)"></span>Po Macks Gam 10000</a>
-        <a href="https://dwtd4gamer.vercel.app/hewoeoney.html"><span class="dot" style="background:linear-gradient(90deg,#5ef3a2,#ffd36b)"></span>vsit eoney's wabsit</a>
-        <a href="https://whale64.net"><span class="dot" style="background:linear-gradient(90deg,#ff7ab6,#7c5cff)"></span>Whale64 Website</a>
-        <a href="https://scratch.mit.edu/users/@dwtd4gamer"><span class="dot" style="background:linear-gradient(90deg,#22d3ee,#5ef3a2)"></span>My Scratch Profile</a>
-        <a href="https://archive.org/details/scratch-games-by-dwtd4gamer_20250516"><span class="dot" style="background:linear-gradient(90deg,#ffd36b,#ff8b5a)"></span>Download My Scratch Projects!</a>
-        <a href="https://eoney.w3spaces.com"><span class="dot" style="background:linear-gradient(90deg,#7c5cff,#ff7ab6)"></span>vsit da ofishal wabsit dy eoney!</a>        <a href="https://dwtd4gamer.vercel.app/breakmake.html"><span class="dot" style="background:linear-gradient(90deg,#ff8b5a,#ff7ab6)"></span>Play BreakMake!</a>
-        <a href="https://dwtd4gamer.vercel.app/breakmake2.html"><span class="dot" style="background:linear-gradient(90deg,#5ef3a2,#7c5cff)"></span>Play BreakMake 2</a>
-        <a href="https://dwtd4gamer.vercel.app/eoneyprojekts.html"><span class="dot" style="background:linear-gradient(90deg,#ffd36b,#22d3ee)"></span>mor eoney stoff!</a>
-        <a href="https://dwtd4gamer.vercel.app/podcasts.html"><span class="dot" style="background:linear-gradient(90deg,#7c5cff,#5ef3a2)"></span>Podcasts (coming soon)</a>
-        <a href="https://youtube.com/@dwtd4gamer"><span class="dot" style="background:linear-gradient(90deg,#7c5cff,#5ef3a2)"></span>YouTube Channel</a>
-      </nav>
+<div class="wrap">
 
-      <footer>© 2026 Cosmo Co. All Rights Reserved.</footer>
-    </main>
+  <!-- MAIN -->
 
-    <aside class="side">
-      <div class="widget weather" id="weatherWidget" aria-live="polite">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="font-size:12px;color:var(--muted)">Current Weather</div>
-            <div class="temp" id="temp">--°</div>
-            <div class="cond" id="cond">Loading…</div>
-          </div>
-          <div style="text-align:right;color:var(--muted)" id="loc">—</div>
-        </div>
-        <div class="meta">
-          <div id="wind">Wind: —</div>
-          <div id="hum">Humidity: —</div>
-        </div>
-        <div style="margin-top:10px;font-size:12px;color:var(--muted)">Showing Ottawa and Hamilton (wttr.in no API key)</div>
+  <main class="card">
 
-        <!-- location selector -->
-        <div style="margin-top:12px;display:flex;gap:8px">
-          <button id="ottBtn" style="flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);cursor:pointer">Ottawa</button>
-          <button id="hamBtn" style="flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);cursor:pointer">Hamilton</button>
-        </div>
+    <header class="site-head">
+
+      <div class="logo">D4G</div>
+
+      <div>
+        <h1>dwtd4gamer</h1>
+        <p class="subtitle">
+          Games, websites, projects, podcasts, and random cool stuff.
+        </p>
       </div>
-    </aside>
-  </div>
+
+    </header>
+
+    <nav class="links">
+
+      <a href="https://dwtd4gamer.vercel.app/chat.html">
+        <span class="dot" style="background:#ffd36b"></span>
+        Chat Website
+      </a>
+
+      <a href="https://croosyrod.w3spaces.com/home.html">
+        <span class="dot" style="background:#7c5cff"></span>
+        Po Macks Gam 10000
+      </a>
+
+      <a href="https://whale64.net">
+        <span class="dot" style="background:#22d3ee"></span>
+        Whale64 Website
+      </a>
+
+      <a href="https://scratch.mit.edu/users/@dwtd4gamer">
+        <span class="dot" style="background:#5ef3a2"></span>
+        Scratch Profile
+      </a>
+
+      <a href="https://dwtd4gamer.vercel.app/breakmake.html">
+        <span class="dot" style="background:#ff8b5a"></span>
+        Play BreakMake!
+      </a>
+
+      <a href="https://youtube.com/@dwtd4gamer">
+        <span class="dot" style="background:#ff4d4d"></span>
+        YouTube Channel
+      </a>
+
+    </nav>
+
+    <!-- SOCIAL MEDIA -->
+
+    <div class="socials">
+
+      <!-- FACEBOOK -->
+
+      <a class="socialBtn facebook" href="https://facebook.com" target="_blank">
+
+        <svg viewBox="0 0 24 24">
+
+          <path d="M12 2C6.5 2 2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7C18.3 21.1 22 17 22 12c0-5.5-4.5-10-10-10z"></path>
+
+        </svg>
+
+      </a>
+
+      <!-- YOUTUBE -->
+
+      <a class="socialBtn youtube" href="https://youtube.com/@dwtd4gamer" target="_blank">
+
+        <svg viewBox="0 0 24 24">
+
+          <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8zM9.6 15.5v-7L15.8 12l-6.2 3.5z"></path>
+
+        </svg>
+
+      </a>
+
+      <!-- INSTAGRAM -->
+
+      <a class="socialBtn instagram" href="https://instagram.com" target="_blank">
+
+        <svg viewBox="0 0 24 24">
+
+          <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm11 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-6 2.5A5.5 5.5 0 1 1 6.5 12 5.5 5.5 0 0 1 12 6.5zm0 2A3.5 3.5 0 1 0 15.5 12 3.5 3.5 0 0 0 12 8.5z"></path>
+
+        </svg>
+
+      </a>
+
+    </div>
+
+    <footer>
+      © 2026 Cosmo Co. All Rights Reserved.
+    </footer>
+
+  </main>
+
+  <!-- WEATHER -->
+
+  <aside class="side">
+
+    <div class="widget">
+
+      <div style="font-size:13px;color:var(--muted)">
+        Live Weather
+      </div>
+
+      <div class="temp" id="temp">--°</div>
+
+      <div class="cond" id="cond">
+        Search for a city
+      </div>
+
+      <div style="margin-top:8px;color:var(--muted)" id="loc">
+        ---
+      </div>
+
+      <div class="meta">
+        <div id="wind">Wind: ---</div>
+        <div id="hum">Humidity: ---</div>
+      </div>
+
+      <div class="searchWrap">
+
+        <input
+          class="searchBox"
+          id="cityInput"
+          type="text"
+          placeholder="Search any city in the world..."
+        >
+
+      </div>
+
+      <div class="searchHint">
+        Press Enter to search weather 🌍
+      </div>
+
+    </div>
+
+  </aside>
+
+</div>
 
 <script>
-/* Top small time widget */
+
+/* CLOCK */
+
 (function(){
+
   const timeEl = document.getElementById('topTime');
   const tzEl = document.getElementById('topTz');
-  function updateTime(){
+
+  function update(){
+
     const now = new Date();
-    const hh = now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
-    timeEl.textContent = hh;
-    tzEl.textContent = tz;
+
+    timeEl.textContent =
+      now.toLocaleTimeString([],{
+        hour:'2-digit',
+        minute:'2-digit'
+      });
+
+    tzEl.textContent =
+      Intl.DateTimeFormat().resolvedOptions().timeZone;
   }
-  updateTime();
-  setInterval(updateTime, 1000);
+
+  update();
+
+  setInterval(update,1000);
+
 })();
 
-/* Weather for Ottawa and Hamilton using wttr.in (no key).
-   Predefined coordinates used (no geolocation) for deterministic results.
-*/
+/* WEATHER */
+
 (function(){
+
   const tempEl = document.getElementById('temp');
   const condEl = document.getElementById('cond');
   const locEl = document.getElementById('loc');
   const windEl = document.getElementById('wind');
   const humEl = document.getElementById('hum');
 
-  const locations = {
-    ottawa: {label: 'Ottawa, ON', query: 'Ottawa'},
-    hamilton: {label: 'Hamilton, ON', query: 'Hamilton'}
-  };
+  const cityInput = document.getElementById('cityInput');
 
-  function showError(msg){
-    condEl.textContent = msg;
-    tempEl.textContent = '--°';
-    locEl.textContent = '';
-    windEl.textContent = 'Wind: —';
-    humEl.textContent = 'Humidity: —';
+  async function fetchWeather(city){
+
+    try{
+
+      condEl.textContent = 'Loading...';
+
+      const response =
+        await fetch(
+          `https://wttr.in/${encodeURIComponent(city)}?format=j1`
+        );
+
+      const data = await response.json();
+
+      const current =
+        data.current_condition[0];
+
+      tempEl.textContent =
+        current.temp_C + '°C';
+
+      condEl.textContent =
+        current.weatherDesc[0].value;
+
+      locEl.textContent =
+        data.nearest_area[0].areaName[0].value;
+
+      windEl.textContent =
+        'Wind: ' +
+        current.windspeedKmph +
+        ' km/h';
+
+      humEl.textContent =
+        'Humidity: ' +
+        current.humidity +
+        '%';
+
+    }catch(err){
+
+      condEl.textContent =
+        'Could not load weather';
+
+    }
+
   }
 
-  function fetchWttrFor(query){
-    // wttr.in supports city name queries and returns JSON at ?format=j1
-    const url = `https://wttr.in/${encodeURIComponent(query)}?format=j1`;
-    condEl.textContent = 'Loading…';
-    fetch(url).then(r=>{
-      if(!r.ok) throw new Error('Weather fetch failed');
-      return r.json();
-    }).then(data=>{
-      const cur = data.current_condition && data.current_condition[0];
-      if(!cur) return showError('No data');
-      tempEl.textContent = `${cur.temp_C}°C`;
-      condEl.textContent = (cur.weatherDesc && cur.weatherDesc[0] && cur.weatherDesc[0].value) || '—';
-      locEl.textContent = (data.nearest_area && data.nearest_area[0] && data.nearest_area[0].areaName && data.nearest_area[0].areaName[0].value) || query;
-      windEl.textContent = `Wind: ${cur.windspeedKmph} km/h`;
-      humEl.textContent = `Humidity: ${cur.humidity}%`;
-    }).catch(()=> showError('Unable to load'));
-  }
+  fetchWeather('Ottawa');
 
-  // initial: Ottawa
-  fetchWttrFor(locations.ottawa.query);
+  cityInput.addEventListener('keydown',e=>{
 
-  document.getElementById('ottBtn').addEventListener('click', ()=> fetchWttrFor(locations.ottawa.query));
-  document.getElementById('hamBtn').addEventListener('click', ()=> fetchWttrFor(locations.hamilton.query));
+    if(e.key === 'Enter'){
+
+      const city =
+        cityInput.value.trim();
+
+      if(city){
+
+        fetchWeather(city);
+
+      }
+
+    }
+
+  });
+
 })();
+
 </script>
+
 </body>
 </html>
